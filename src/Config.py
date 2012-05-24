@@ -605,7 +605,7 @@ class SimConfigPage(GeneralConfigPage):
         simulation_group = QGroupBox("Simulation")
         sim_dateedit = self.create_dateedit("Date de la simulation", 'datesim')
         nmen_spinbox = self.create_spinbox(u'Nombre de ménages', '', 'nmen', min_ = 1, max_ = 10001, step = 100)
-        xaxis_choices = [(u'Salaires', 'sal'),(u'Chômage', 'cho'), (u'Retraites', 'rst')]
+        xaxis_choices = [(u'Salaires', 'sal'),(u'Chômage', 'cho'), (u'Retraites', 'rst'), (u'Patrimoine', 'pat')]
         xaxis_combo = self.create_combobox('Axe des abscisses', xaxis_choices, 'xaxis')
         maxrev_spinbox = self.create_spinbox("Revenu maximum", 
                                              'euros', 'maxrev', min_ = 0, max_ = 10000000, step = 1000)

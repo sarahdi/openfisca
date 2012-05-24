@@ -271,6 +271,10 @@ class Graph(QDockWidget, Ui_Graph):
                                   u'Retraite imposable', 
                                   u'Retraite nette'])
             self.absBox.setCurrentIndex(1)
+        elif xaxis == 'pat':
+            self.absBox.addItems([u'Patrimoine'])
+            self.absBox.setCurrentIndex(0)
+
         self.connect(self.absBox, SIGNAL('currentIndexChanged(int)'), self.xaxis_changed)
 
     def xaxis_changed(self):
@@ -283,7 +287,8 @@ class Graph(QDockWidget, Ui_Graph):
                 u'Chômage net': 'chonet',
                 u'Retraite brut': 'rstbrut',
                 u'Retraite imposable' : 'rst',
-                u'Retraite nette': 'rstnet'}
+                u'Retraite nette': 'rstnet',
+                u'Patrimoine': 'pat'}
         if self.mode == "bareme":
             self.xaxis = temp[unicode(self.absBox.currentText())]
             self.updateGraph2()

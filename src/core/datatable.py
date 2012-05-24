@@ -50,10 +50,6 @@ class DataTable(object):
         self._nrows = 0
 
         self.datesim = CONF.get('simulation', 'datesim')
-
-        self.NMEN = CONF.get('simulation', 'nmen')
-        self.MAXREV = CONF.get('simulation', 'maxrev')
-        self.XAXIS = CONF.get('simulation', 'xaxis') + 'i'
         
         # Build the description attribute        
         if type(model_description) == type(ModelDescription):
@@ -223,13 +219,15 @@ class DataTable(object):
 #        self.inflate(totals)             
 
     def populate_from_scenario(self, scenario):
-        self._nrows = self.NMEN*len(scenario.indiv)
-        MAXREV = self.MAXREV
+        MAXREV = CONF.get('simulation', 'maxrev')
+        NMEN = CONF.get('simulation', 'nmen')
+
+        self._nrows = NMEN*len(scenario.indiv)
         datesim = self.datesim
 
         self.table = DataFrame()
 
-        idmen = np.arange(60001, 60001 + self.NMEN)
+        idmen = np.arange(60001, 60001 + NMEN)
         for noi, dct in scenario.indiv.iteritems():
             birth = dct['birth']
             age = datesim.year- birth.year
@@ -239,12 +237,12 @@ class DataTable(object):
             quifoy = self.description.get_col('quifoy').enum[dct['quifoy']]
             quifam = self.description.get_col('quifam').enum[dct['quifam']]
             quimen = self.description.get_col('quimen').enum[dct['quimen']]
-            dct = {'noi': noi*np.ones(self.NMEN),
-                   'age': age*np.ones(self.NMEN),
-                   'agem': agem*np.ones(self.NMEN),
-                   'quimen': quimen*np.ones(self.NMEN),
-                   'quifoy': quifoy*np.ones(self.NMEN),
-                   'quifam': quifam*np.ones(self.NMEN),
+            dct = {'noi': noi*np.ones(NMEN),
+                   'age': age*np.ones(NMEN),
+                   'agem': agem*np.ones(NMEN),
+                   'quimen': quimen*np.ones(NMEN),
+                   'quifoy': quifoy*np.ones(NMEN),
+                   'quifam': quifam*np.ones(NMEN),
                    'idmen': idmen,
                    'idfoy': idmen*100 + noidec,
                    'idfam': idmen*100 + noichef}
@@ -280,9 +278,9 @@ class DataTable(object):
             
         # set xaxis
         # TODO: how to set xaxis vals properly
-        if self.NMEN>1:
-            var = self.XAXIS
-            vls = np.linspace(0, MAXREV, self.NMEN)
+        if NMEN>1:
+            var = CONF.get('simulation', 'xaxis') + 'i'
+            vls = np.linspace(0, MAXREV, NMEN)
             self.set_value(var, vls, {0:{'idxIndi': index[0]['idxIndi'], 'idxUnit': index[0]['idxIndi']}})
         
         self._isPopulated = True
